@@ -28,17 +28,17 @@ export default function Header() {
   ];
 
   return (
-    <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 sm:px-6">
+    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center">
       <header
-        className={`w-full max-w-7xl transition-all duration-500 rounded-full ${
+        className={`w-full px-4 sm:px-6 transition-all duration-300 ${
           isScrolled 
-            ? 'bg-[#0a0a0a]/60 backdrop-blur-2xl border border-white/5 shadow-[0_8px_30px_rgb(0,0,0,0.8)]' 
-            : 'bg-transparent border border-transparent'
+            ? 'bg-[#1c1c1e]/80 backdrop-blur-md border-b border-white/10' 
+            : 'bg-transparent border-b border-transparent'
         }`}
       >
-        <div className="px-6 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 group">
-            <BiotenisLogo className="h-10 w-auto group-hover:scale-105 transition-transform duration-300" />
+            <BiotenisLogo className="h-8 w-auto group-hover:opacity-80 transition-opacity duration-200" />
           </Link>
 
           {/* Desktop Nav */}
@@ -49,8 +49,8 @@ export default function Header() {
                 <Link
                   key={link.label}
                   to={link.href}
-                  className={`text-xs font-semibold tracking-[0.15em] uppercase transition-colors duration-300 ${
-                    isActive ? 'text-white' : 'text-gray-400 hover:text-[#C89B3C]'
+                  className={`text-xs font-semibold tracking-widest uppercase transition-colors duration-200 ${
+                    isActive ? 'text-white' : 'text-gray-400 hover:text-white'
                   }`}
                 >
                   {link.label}
@@ -58,16 +58,16 @@ export default function Header() {
               );
             })}
             
-            <div className="w-px h-6 bg-white/10 mx-2"></div>
+            <div className="w-px h-4 bg-white/10 mx-2"></div>
 
             {isAdmin ? (
-              <Link to="/admin/jogos" className="group flex items-center gap-2 text-xs font-bold tracking-[0.15em] uppercase bg-gradient-to-r from-[#C89B3C] to-[#e0af45] text-black px-6 py-2.5 rounded-full shadow-[0_0_20px_rgba(200,155,60,0.2)] hover:shadow-[0_0_30px_rgba(200,155,60,0.4)] active:scale-95 transition-all duration-300">
-                <User size={16} className="group-hover:translate-x-0.5 transition-transform" />
+              <Link to="/admin/jogos" className="group flex items-center gap-2 text-xs font-bold tracking-widest uppercase bg-[#cc4f33] text-white px-5 py-2 rounded-lg hover:bg-[#e06042] active:scale-95 transition-all duration-200">
+                <User size={16} />
                 Admin
               </Link>
             ) : (
-              <Link to="/login" className="group flex items-center gap-2 text-xs font-bold tracking-[0.15em] uppercase bg-white/5 hover:bg-white/10 px-6 py-2.5 rounded-full border border-white/5 hover:border-white/20 active:scale-95 transition-all duration-300 backdrop-blur-sm">
-                <User size={16} className="group-hover:translate-x-0.5 transition-transform" />
+              <Link to="/login" className="group flex items-center gap-2 text-xs font-bold tracking-widest uppercase bg-[#1c1c1e] hover:bg-[#2c2c2e] px-5 py-2 rounded-lg border border-white/10 active:scale-95 transition-all duration-200 text-white">
+                <User size={16} />
                 Login
               </Link>
             )}
@@ -98,8 +98,8 @@ export default function Header() {
                   <Link
                     key={link.label}
                     to={link.href}
-                    className={`text-xs font-semibold tracking-[0.15em] uppercase transition-colors duration-200 ${
-                      isActive ? 'text-[#C89B3C]' : 'text-gray-300 hover:text-white'
+                    className={`text-xs font-semibold tracking-widest uppercase transition-colors duration-200 ${
+                      isActive ? 'text-[#cc4f33]' : 'text-gray-400 hover:text-white'
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -111,12 +111,12 @@ export default function Header() {
               <div className="w-12 h-px bg-white/10 my-2"></div>
 
               {isAdmin ? (
-                <Link to="/admin/jogos" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-center gap-2 text-xs font-bold tracking-[0.15em] uppercase bg-gradient-to-r from-[#C89B3C] to-[#e0af45] text-black px-8 py-3.5 rounded-full w-[80%] max-w-xs shadow-[0_0_20px_rgba(200,155,60,0.3)] hover:shadow-[0_0_30px_rgba(200,155,60,0.5)] active:scale-95 transition-all duration-300">
+                <Link to="/admin/jogos" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-center gap-2 text-xs font-bold tracking-widest uppercase bg-[#cc4f33] text-white px-8 py-3 rounded-lg w-[80%] max-w-xs hover:bg-[#e06042] active:scale-95 transition-all duration-200">
                   <User size={16} />
                   Painel Admin
                 </Link>
               ) : (
-                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-center gap-2 text-xs font-bold tracking-[0.15em] uppercase bg-white/5 text-white border border-white/10 px-8 py-3.5 rounded-full w-[80%] max-w-xs hover:bg-white/10 active:scale-95 transition-all duration-300">
+                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-center gap-2 text-xs font-bold tracking-widest uppercase bg-[#1c1c1e] text-white border border-white/10 px-8 py-3 rounded-lg w-[80%] max-w-xs hover:bg-[#2c2c2e] active:scale-95 transition-all duration-200">
                   <User size={16} />
                   Login
                 </Link>

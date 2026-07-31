@@ -48,15 +48,15 @@ export default function Aulas() {
   const [selectedCoach, setSelectedCoach] = useState(COACHES[0]);
 
   return (
-    <div className="pt-20 min-h-screen bg-black flex flex-col md:flex-row overflow-hidden relative">
-      {/* Background with subtle glow matching the selected coach (conceptually) */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#C89B3C]/10 via-black to-black z-0 pointer-events-none transition-colors duration-1000"></div>
+    <div className="pt-20 min-h-screen bg-[#000000] flex flex-col md:flex-row overflow-hidden relative">
+      {/* Background */}
+      <div className="absolute inset-0 bg-black z-0 pointer-events-none"></div>
 
       {/* Roster Selection (Left Side on Desktop) */}
-      <div className="w-full md:w-1/3 border-b md:border-b-0 md:border-r border-white/5 z-10 flex flex-col bg-[#050505]/80 backdrop-blur-3xl">
-        <div className="p-8 border-b border-white/5">
-          <h1 className="font-serif text-3xl md:text-4xl text-white mb-2">Treinadores</h1>
-          <p className="text-gray-500 text-[10px] uppercase tracking-widest font-bold">Selecione seu mentor</p>
+      <div className="w-full md:w-1/3 border-b md:border-b-0 md:border-r border-white/10 z-10 flex flex-col bg-[#000000]">
+        <div className="p-8 border-b border-white/10">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Treinadores</h1>
+          <p className="text-gray-400 text-xs font-semibold">Selecione seu mentor</p>
         </div>
         
         <div className="flex-1 overflow-y-auto flex flex-row md:flex-col snap-x md:snap-y snap-mandatory p-4 md:p-4 gap-2">
@@ -66,16 +66,16 @@ export default function Aulas() {
               <button
                 key={coach.id}
                 onClick={() => setSelectedCoach(coach)}
-                className={`group flex-shrink-0 w-64 md:w-full flex items-center gap-4 p-4 snap-center transition-all duration-300 rounded-2xl text-left
-                  ${isSelected ? 'bg-white/5 border border-white/10 shadow-[0_0_30px_rgba(200,155,60,0.1)]' : 'border border-transparent hover:bg-white/[0.02] opacity-60 hover:opacity-100 active:scale-95'}
+                className={`group flex-shrink-0 w-64 md:w-full flex items-center gap-4 p-4 snap-center transition-all duration-200 rounded-xl text-left
+                  ${isSelected ? 'bg-[#1c1c1e] border border-white/10' : 'border border-transparent hover:bg-white/5 opacity-70 hover:opacity-100'}
                 `}
               >
-                <div className={`w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 transition-all duration-500 ${isSelected ? 'border-[#C89B3C] grayscale-0 shadow-[0_0_15px_rgba(200,155,60,0.4)] scale-105' : 'border-white/10 grayscale group-hover:grayscale-[0.5]'}`}>
+                <div className={`w-14 h-14 rounded-full overflow-hidden shrink-0 transition-all duration-300 ${isSelected ? 'ring-2 ring-[#cc4f33] ring-offset-2 ring-offset-black grayscale-0' : 'grayscale group-hover:grayscale-[0.5]'}`}>
                   <img src={coach.img} alt={coach.name} className="w-full h-full object-cover" />
                 </div>
                 <div>
-                  <h3 className={`font-serif text-lg transition-colors ${isSelected ? 'text-white' : 'text-gray-400 group-hover:text-gray-200'}`}>{coach.name}</h3>
-                  <p className="text-[#C89B3C] text-[10px] uppercase tracking-widest line-clamp-1 mt-1 font-semibold">{coach.role}</p>
+                  <h3 className={`text-base font-bold transition-colors ${isSelected ? 'text-white' : 'text-gray-400 group-hover:text-gray-200'}`}>{coach.name}</h3>
+                  <p className="text-gray-500 text-xs font-medium line-clamp-1">{coach.role}</p>
                 </div>
               </button>
             )
@@ -94,38 +94,27 @@ export default function Aulas() {
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="max-w-2xl relative z-20"
           >
-            <div className="flex items-center gap-3 mb-6">
-              <Star className="text-[#C89B3C]" size={20} fill="#C89B3C" />
-              <span className="text-[#C89B3C] text-[10px] uppercase tracking-[0.2em] font-bold">{selectedCoach.role}</span>
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-[#cc4f33] text-xs font-bold uppercase tracking-widest">{selectedCoach.role}</span>
             </div>
             
-            <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl text-white mb-8 tracking-tight">{selectedCoach.name}</h2>
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">{selectedCoach.name}</h2>
             
-            <p className="text-gray-300 font-light text-lg md:text-xl leading-relaxed mb-12 border-l-2 border-gradient-to-b from-[#C89B3C] to-transparent pl-6">
+            <p className="text-gray-400 font-medium text-lg md:text-xl leading-relaxed mb-12">
               {selectedCoach.bio}
             </p>
 
-            {/* RPG Style Attributes */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
+            {/* Minimal Attributes */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
               {selectedCoach.attributes.map(attr => (
-                <div key={attr.name} className="glass-card p-5 rounded-2xl">
-                  <div className="flex justify-between items-end mb-3">
-                    <span className="text-gray-300 text-[10px] uppercase tracking-widest font-bold">{attr.name}</span>
-                    <span className="text-[#C89B3C] font-mono text-xs">{attr.value}/100</span>
-                  </div>
-                  <div className="w-full h-1.5 bg-black/50 rounded-full overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: `${attr.value}%` }}
-                      transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-                      className="h-full bg-gradient-to-r from-[#C89B3C] to-[#e0af45] rounded-full shadow-[0_0_10px_rgba(200,155,60,0.5)]"
-                    />
-                  </div>
+                <div key={attr.name} className="bg-[#1c1c1e] p-4 rounded-xl border border-white/5 flex flex-col justify-center">
+                  <span className="text-gray-500 text-xs font-semibold mb-1">{attr.name}</span>
+                  <span className="text-white text-xl font-bold">{attr.value}</span>
                 </div>
               ))}
             </div>
 
-            <button className="group relative flex items-center justify-center gap-3 bg-white/5 border border-white/10 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/30 px-8 py-4 uppercase tracking-[0.2em] text-xs font-bold transition-all duration-500 rounded-full w-full sm:w-auto active:scale-95 shadow-lg">
+            <button className="group relative flex items-center justify-center gap-3 bg-[#cc4f33] text-white hover:bg-[#e06042] px-8 py-3.5 tracking-widest text-xs font-bold transition-all duration-200 rounded-xl w-full sm:w-auto active:scale-95">
               Agendar Aula Teste
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>

@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-black-absolute: #050505;
+  --color-black-absolute: #000000;
   --color-graphite: #0a0a0a;
-  --color-graphite-light: #121212;
-  --color-gold: #C89B3C;
-  --color-gold-hover: #b08732;
+  --color-graphite-light: #1c1c1e;
+  --color-gold: #cc4f33;
+  --color-gold-hover: #e06042;
   --color-clay: #cc4f33;
   --color-clay-light: #e06042;
   
   --font-sans: "Inter", sans-serif;
-  --font-serif: "Playfair Display", serif;
+  --font-serif: "Inter", sans-serif;
 }
 
 @layer base {
   body {
-    @apply bg-black-absolute text-white font-sans antialiased selection:bg-gold selection:text-black-absolute overflow-x-hidden;
+    @apply bg-black-absolute text-[#F5F5F7] font-sans antialiased selection:bg-clay selection:text-white overflow-x-hidden;
   }
   
   /* Custom Scrollbar for Webkit */
@@ -37,9 +37,9 @@
     -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
   }
   .glass-card {
-    @apply bg-[#0D0D0D]/80 backdrop-blur-xl border border-white/5 shadow-2xl;
+    @apply bg-graphite-light border border-white/5;
   }
   .glass-card-hover {
-    @apply hover:bg-[#121212]/90 hover:border-white/10 transition-all duration-300;
+    @apply hover:bg-[#2c2c2e] hover:border-white/10 transition-colors duration-200;
   }
 }
