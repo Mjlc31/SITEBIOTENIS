@@ -10,7 +10,7 @@
   --color-clay-light: #e06042;
   
   --font-sans: "Inter", sans-serif;
-  --font-serif: "Inter", sans-serif;
+  --font-serif: "Playfair Display", serif;
 }
 
 @layer base {

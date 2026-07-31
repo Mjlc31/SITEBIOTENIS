@@ -26,9 +26,10 @@ export interface PlayerScore {
 export interface LiveGame {
   id: string;
   date: string;
+  time?: string;
   tournament: string;
-  player1: { name: string; class: string };
-  player2: { name: string; class: string };
+  player1: { name: string; class: string; partnerName?: string };
+  player2: { name: string; class: string; partnerName?: string };
   score: {
     player1: PlayerScore;
     player2: PlayerScore;

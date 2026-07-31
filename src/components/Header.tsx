@@ -32,7 +32,7 @@ export default function Header() {
       <header
         className={`w-full px-4 sm:px-6 transition-all duration-300 ${
           isScrolled 
-            ? 'bg-[#1c1c1e]/80 backdrop-blur-md border-b border-white/10' 
+            ? 'bg-[#0a0a0a]/95 backdrop-blur-xl border-b border-white/5' 
             : 'bg-transparent border-b border-transparent'
         }`}
       >

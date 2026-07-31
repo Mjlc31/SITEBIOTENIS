@@ -1,9 +1,12 @@
 import { useStore } from '../store/useStore';
 import { motion } from 'motion/react';
-import { Trophy, Clock, CheckCircle2, Radio } from 'lucide-react';
+import { Trophy, Clock, CheckCircle2, Radio, Edit2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function LiveGames() {
   const liveGames = useStore(state => state.liveGames);
+  const isAdmin = useStore(state => state.isAdmin);
+  const navigate = useNavigate();
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -73,10 +76,35 @@ export default function LiveGames() {
                 <div className="flex justify-between items-center px-5 py-3 border-b border-white/5">
                   <div className="flex items-center gap-3">
                     <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider">{game.tournament}</span>
-                    <span className="w-1 h-1 rounded-full bg-white/20"></span>
-                    <span className="text-gray-500 text-xs font-medium">{game.date}</span>
+                    {game.status === 'in_progress' ? (
+                      <>
+                        <span className="w-1 h-1 rounded-full bg-white/20"></span>
+                        <span className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest font-bold text-red-500">
+                          <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                          Ao Vivo
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="w-1 h-1 rounded-full bg-white/20"></span>
+                        <span className="text-gray-500 text-xs font-medium">
+                          {game.date} {game.time ? `• ${game.time}` : ''}
+                        </span>
+                      </>
+                    )}
                   </div>
-                  {getStatusBadge(game.status)}
+                  <div className="flex items-center gap-4">
+                    {isAdmin && (
+                      <button 
+                        onClick={() => navigate('/admin/jogos')}
+                        className="flex items-center gap-1.5 text-gray-400 hover:text-white transition-colors text-xs font-semibold uppercase tracking-widest bg-white/5 hover:bg-white/10 px-3 py-1 rounded-md border border-white/10"
+                      >
+                        <Edit2 size={12} />
+                        Editar
+                      </button>
+                    )}
+                    {game.status !== 'in_progress' && getStatusBadge(game.status)}
+                  </div>
                 </div>
 
                 {/* Scoreboard */}
@@ -97,8 +125,13 @@ export default function LiveGames() {
                       <div className="flex-1 flex items-center gap-3">
                         <div className={`w-1.5 h-1.5 rounded-full ${game.status === 'in_progress' ? 'bg-[#cc4f33]' : 'bg-transparent'}`}></div>
                         <div className="flex items-center gap-2">
-                          <h4 className="text-white text-lg font-bold">{game.player1.name}</h4>
-                          <span className="text-gray-500 text-xs font-medium bg-white/5 px-2 py-0.5 rounded">{game.player1.class}</span>
+                          <div className="flex flex-col">
+                            <h4 className="text-white text-lg font-bold leading-tight">{game.player1.name}</h4>
+                            {game.player1.partnerName && (
+                              <h4 className="text-gray-400 text-sm font-semibold leading-tight">{game.player1.partnerName}</h4>
+                            )}
+                          </div>
+                          <span className="text-gray-500 text-xs font-medium bg-white/5 px-2 py-0.5 rounded ml-1 self-start mt-1">{game.player1.class}</span>
                         </div>
                       </div>
                       <div className="flex gap-4 sm:gap-6 w-32 sm:w-40 justify-end text-center items-center">
@@ -117,8 +150,13 @@ export default function LiveGames() {
                       <div className="flex-1 flex items-center gap-3">
                         <div className="w-1.5 h-1.5 rounded-full bg-transparent"></div>
                         <div className="flex items-center gap-2">
-                          <h4 className="text-white text-lg font-bold">{game.player2.name}</h4>
-                          <span className="text-gray-500 text-xs font-medium bg-white/5 px-2 py-0.5 rounded">{game.player2.class}</span>
+                          <div className="flex flex-col">
+                            <h4 className="text-white text-lg font-bold leading-tight">{game.player2.name}</h4>
+                            {game.player2.partnerName && (
+                              <h4 className="text-gray-400 text-sm font-semibold leading-tight">{game.player2.partnerName}</h4>
+                            )}
+                          </div>
+                          <span className="text-gray-500 text-xs font-medium bg-white/5 px-2 py-0.5 rounded ml-1 self-start mt-1">{game.player2.class}</span>
                         </div>
                       </div>
                       <div className="flex gap-4 sm:gap-6 w-32 sm:w-40 justify-end text-center items-center">
