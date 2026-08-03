@@ -14,8 +14,15 @@ export default function Header() {
   const location = useLocation();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => setSession(session));
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setSession(session));
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (!session) useStore.getState().logoutAdmin();
+    });
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (!session) useStore.getState().logoutAdmin();
+    });
     
     return () => subscription.unsubscribe();
   }, []);
@@ -69,7 +76,7 @@ export default function Header() {
             
             <div className="w-px h-4 bg-slate-200 mx-2"></div>
 
-            {isAdmin && (
+            {session && isAdmin && (
               <Link to="/admin/jogos" className="group flex items-center gap-2 text-xs font-bold tracking-widest uppercase bg-[#cc4f33] text-white px-5 py-2 rounded-lg hover:bg-[#e06042] active:scale-95 transition-all duration-200">
                 <User size={16} />
                 Admin
@@ -126,7 +133,7 @@ export default function Header() {
               
               <div className="w-12 h-px bg-slate-200 my-2"></div>
 
-              {isAdmin && (
+              {session && isAdmin && (
                 <Link to="/admin/jogos" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-center gap-2 text-xs font-bold tracking-widest uppercase bg-[#cc4f33] text-white px-8 py-3 rounded-lg w-[80%] max-w-xs hover:bg-[#e06042] active:scale-95 transition-all duration-200">
                   <User size={16} />
                   Painel Admin
