@@ -12,7 +12,11 @@ import Aulas from './pages/Aulas';
 import ProShopPage from './pages/ProShopPage';
 import LiveGames from './pages/LiveGames';
 import AdminGames from './pages/AdminGames';
+import AdminCoaches from './pages/AdminCoaches';
 import Login from './pages/Login';
+import Profile from './pages/Profile';
+import ResetPassword from './pages/ResetPassword';
+import BlobCursor from './components/BlobCursor';
 
 function AppInner() {
   const location = useLocation();
@@ -20,6 +24,7 @@ function AppInner() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-[#cc4f33] selection:text-white">
+      <BlobCursor />
       <Header />
       <main>
         <Routes>
@@ -29,7 +34,10 @@ function AppInner() {
           <Route path="/pro-shop" element={<ProShopPage />} />
           <Route path="/jogos-ao-vivo" element={<LiveGames />} />
           <Route path="/admin/jogos" element={<AdminGames />} />
+          <Route path="/admin/professores" element={<AdminCoaches />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/perfil" element={<Profile />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
       </main>
       {!isHome && <Footer />}

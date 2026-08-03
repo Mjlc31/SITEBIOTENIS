@@ -1,70 +1,60 @@
-import { useRef, useEffect } from 'react';
-import { motion } from 'motion/react';
+import { useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Trophy, Target, ShieldCheck, Instagram, Facebook, MapPin, Phone, Mail } from 'lucide-react';
+import { ArrowRight, Trophy, Target, ShieldCheck, Instagram, Facebook, MapPin, Phone, Mail, ChevronDown } from 'lucide-react';
 import VideoHero from '../components/VideoHero';
 
 export default function Home() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
   // Sempre começa do topo ao entrar na página
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTop = 0;
-    }
+    window.scrollTo(0, 0);
   }, []);
 
+  const { scrollYProgress } = useScroll();
+  const yHero = useTransform(scrollYProgress, [0, 1], [0, 300]);
+  const opacityHero = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+
   return (
-    <div
-      ref={containerRef}
-      className="h-screen overflow-y-scroll"
-      style={{
-        scrollSnapType: 'y mandatory',
-        scrollBehavior: 'smooth',
-      }}
-    >
+    <div className="w-full bg-slate-50">
 
       {/* ══════════════════════════════════════════════════════════════════
-          SEÇÃO 1 — Video Hero
+          SEÇÃO 1 — Video Hero (Parallax)
       ══════════════════════════════════════════════════════════════════ */}
-      <section
-        className="relative w-full flex-shrink-0"
-        style={{ height: '100svh', scrollSnapAlign: 'start' }}
-      >
-        <VideoHero />
+      <section className="relative w-full h-screen overflow-hidden">
+        <motion.div style={{ y: yHero, opacity: opacityHero }} className="absolute inset-0">
+          <VideoHero />
+        </motion.div>
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════
-          SEÇÃO 2 — O Santuário do Saibro
+          SEÇÃO 2 — O Santuário do Saibro (Background Imagem Parallax CSS)
       ══════════════════════════════════════════════════════════════════ */}
-      <section
-        className="relative w-full flex-shrink-0 bg-[#050505] flex items-center px-6 overflow-hidden"
-        style={{ height: '100svh', scrollSnapAlign: 'start' }}
-      >
-        {/* Subtle noise texture */}
-        <div className="absolute inset-0 opacity-[0.02]"
-          style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")" }}
+      <section className="relative w-full min-h-screen flex items-center py-24 overflow-hidden">
+        {/* Background Image with Pure CSS Parallax */}
+        <div 
+          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=2940&auto=format&fit=crop')] bg-cover bg-center bg-fixed opacity-25"
         />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-50 via-slate-50/95 to-slate-50/50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-slate-50" />
 
-        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left: Texto */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.9, ease: 'easeOut' }}
           >
             <span className="text-[#cc4f33] text-[10px] uppercase tracking-[0.35em] font-bold mb-5 block">
               Fundação
             </span>
-            <h2 className="text-4xl md:text-5xl xl:text-[3.5rem] font-serif font-bold text-white mb-7 leading-[1.05] tracking-tight">
+            <h2 className="text-4xl md:text-5xl xl:text-[3.5rem] font-heading font-bold text-slate-900 mb-7 leading-[1.05] tracking-tight">
               O Santuário<br />do Saibro
             </h2>
-            <p className="text-gray-400 font-light text-lg leading-relaxed mb-5">
+            <p className="text-slate-600 font-light text-lg leading-relaxed mb-5">
               Nascida da paixão pelo verdadeiro tênis, a Biotenis Academia foi concebida para ser muito mais que um espaço esportivo — é um ponto de encontro para aqueles que exigem o melhor.
             </p>
-            <p className="text-gray-400 font-light text-lg leading-relaxed">
+            <p className="text-slate-600 font-light text-lg leading-relaxed">
               Nossas quadras são preparadas diariamente com o mais fino pó de telha, garantindo o deslize perfeito, o quique consistente e a segurança articular.
             </p>
           </motion.div>
@@ -91,17 +81,17 @@ export default function Home() {
             ].map((item, i) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 + 0.2 }}
-                className={`glass-card p-6 rounded-2xl ${item.full ? 'sm:col-span-2' : ''}`}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: i * 0.15 }}
+                className={`glass-card bg-white/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200 hover:border-slate-300 shadow-sm transition-colors ${item.full ? 'sm:col-span-2' : ''}`}
               >
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center mb-4">
                   {item.icon}
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2">{item.title}</h3>
-                <p className="text-gray-400 font-light text-sm leading-relaxed">{item.desc}</p>
+                <h3 className="text-lg font-heading font-bold text-slate-900 mb-2">{item.title}</h3>
+                <p className="text-slate-600 font-light text-sm leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -109,19 +99,13 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════
-          SEÇÃO 3 — Nossos Fundadores
+          SEÇÃO 3 — Nossos Fundadores (Fundo Escuro Limpo)
       ══════════════════════════════════════════════════════════════════ */}
-      <section
-        className="relative w-full flex-shrink-0 bg-black flex flex-col items-center justify-center px-6 overflow-hidden"
-        style={{ height: '100svh', scrollSnapAlign: 'start' }}
-      >
-        {/* Linha decorativa superior */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-white/5" />
-
+      <section className="relative w-full py-32 bg-white flex flex-col items-center justify-center px-6 overflow-hidden">
         <motion.span
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
           className="text-[#cc4f33] text-[10px] uppercase tracking-[0.35em] font-bold mb-4 block text-center"
         >
@@ -131,14 +115,14 @@ export default function Home() {
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-3xl md:text-4xl xl:text-5xl font-serif font-bold text-white mb-10 tracking-tight text-center"
+          className="text-3xl md:text-4xl xl:text-5xl font-heading font-bold text-slate-900 mb-16 tracking-tight text-center"
         >
           Nossos Fundadores
         </motion.h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-5xl mx-auto w-full">
           {[
             {
               name: 'Eusébio',
@@ -161,24 +145,24 @@ export default function Home() {
           ].map((founder, i) => (
             <motion.div
               key={founder.name}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: i * 0.15, duration: 0.8, ease: 'easeOut' }}
-              className="flex flex-col items-center glass-card p-7 rounded-3xl"
+              className="flex flex-col items-center group"
             >
-              <div className="w-28 h-28 rounded-full overflow-hidden mb-5 border-2 border-white/10 ring-2 ring-[#cc4f33]/20">
+              <div className="w-32 h-32 rounded-full overflow-hidden mb-6 border-2 border-slate-200 ring-2 ring-transparent group-hover:ring-[#cc4f33]/30 transition-all duration-500">
                 <img
                   src={founder.img}
                   alt={founder.name}
-                  className="w-full h-full object-cover object-top grayscale"
+                  className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105"
                 />
               </div>
-              <h3 className="text-xl font-serif font-bold text-white mb-1">{founder.name}</h3>
-              <p className="text-[#cc4f33] text-[10px] uppercase tracking-widest mb-3 font-bold">
+              <h3 className="text-xl font-heading font-bold text-slate-900 mb-1">{founder.name}</h3>
+              <p className="text-[#cc4f33] text-[10px] uppercase tracking-widest mb-4 font-bold">
                 {founder.role}
               </p>
-              <p className="text-gray-400 font-light text-sm leading-relaxed text-center">
+              <p className="text-slate-600 font-light text-sm leading-relaxed text-center">
                 {founder.desc}
               </p>
             </motion.div>
@@ -187,24 +171,17 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════
-          SEÇÃO 4 — Propósito + Mini Footer
+          SEÇÃO 4 — Propósito + Mini Footer (Parallax Imagem)
       ══════════════════════════════════════════════════════════════════ */}
-      <section
-        className="relative w-full flex-shrink-0 flex flex-col overflow-hidden"
-        style={{ height: '100svh', scrollSnapAlign: 'start' }}
-      >
-        {/* Background */}
-        <div className="absolute inset-0 z-0 bg-black">
-          <img
-            src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2940&auto=format&fit=crop"
-            alt=""
-            className="w-full h-full object-cover grayscale opacity-10 mix-blend-luminosity"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black" />
-        </div>
+      <section className="relative w-full flex flex-col overflow-hidden min-h-screen">
+        {/* Background Parallax CSS */}
+        <div 
+          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2940&auto=format&fit=crop')] bg-cover bg-center bg-fixed opacity-15 grayscale mix-blend-luminosity"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent" />
 
         {/* Quote */}
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6">
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 py-32">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -220,7 +197,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, ease: 'easeOut' }}
-            className="text-2xl md:text-3xl xl:text-4xl text-white leading-relaxed mb-12 px-4 font-serif italic font-medium max-w-4xl"
+            className="text-2xl md:text-3xl xl:text-4xl text-slate-900 leading-relaxed mb-12 px-4 font-heading italic font-medium max-w-4xl"
           >
             "Elevar o padrão do tênis amador e profissional, forjando campeões através da disciplina, elegância e respeito absoluto ao esporte."
           </motion.blockquote>
@@ -234,14 +211,14 @@ export default function Home() {
           >
             <Link
               to="/reservas"
-              className="group flex items-center justify-center gap-3 bg-white text-black px-10 py-3.5 tracking-widest text-xs font-bold transition-all duration-200 hover:bg-gray-100 active:scale-95 rounded-xl"
+              className="group flex items-center justify-center gap-3 bg-slate-900 text-white px-10 py-3.5 tracking-widest text-xs font-bold transition-all duration-200 hover:bg-slate-800 active:scale-95 rounded-xl"
             >
               Reservar uma Quadra
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               to="/aulas"
-              className="group flex items-center justify-center gap-3 bg-transparent text-white border border-white/20 px-10 py-3.5 tracking-widest text-xs font-bold transition-all duration-200 hover:bg-white/10 active:scale-95 rounded-xl"
+              className="group flex items-center justify-center gap-3 bg-transparent text-slate-900 border border-slate-300 px-10 py-3.5 tracking-widest text-xs font-bold transition-all duration-200 hover:bg-slate-100 active:scale-95 rounded-xl backdrop-blur-sm"
             >
               Ver Aulas
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -250,21 +227,21 @@ export default function Home() {
         </div>
 
         {/* Mini footer */}
-        <div className="relative z-10 border-t border-white/5 py-6 px-8">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-gray-500">
+        <div className="relative z-10 border-t border-slate-200 bg-white/80 backdrop-blur-md py-6 px-8">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 md:gap-4">
+            <p className="text-xs text-slate-500 text-center md:text-left">
               © {new Date().getFullYear()} Biotenis Academia · Todos os direitos reservados.
             </p>
-            <div className="flex items-center gap-6 text-xs text-gray-500">
-              <span className="flex items-center gap-1.5">
+            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 text-xs text-slate-500">
+              <span className="flex items-center gap-1.5 hover:text-slate-900 transition-colors cursor-default">
                 <MapPin size={12} className="text-[#cc4f33]" />
                 Av. Menino Marcelo, S/N · Serraria, Maceió — AL
               </span>
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-1.5 hover:text-slate-900 transition-colors cursor-pointer">
                 <Phone size={12} className="text-[#cc4f33]" />
                 (82) 3328-0000
               </span>
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-1.5 hover:text-slate-900 transition-colors cursor-pointer">
                 <Mail size={12} className="text-[#cc4f33]" />
                 contato@biotenis.com.br
               </span>

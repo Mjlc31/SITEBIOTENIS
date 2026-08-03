@@ -1,6 +1,75 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+export interface CoachAttribute {
+  name: string;
+  value: number;
+}
+
+export interface Coach {
+  id: string;
+  name: string;
+  role: string;
+  img: string;
+  bio: string;
+  attributes: CoachAttribute[];
+}
+
+const initialCoaches: Coach[] = [
+  {
+    id: 'gefferson',
+    name: 'Gefferson',
+    role: 'Head Coach',
+    img: '/gefferson.png',
+    bio: 'Treinador especialista em desenvolvimento técnico e tático.',
+    attributes: [
+      { name: 'Técnica', value: 95 },
+      { name: 'Intensidade', value: 90 },
+      { name: 'Tática', value: 95 },
+      { name: 'Paciência Infantil', value: 85 },
+    ]
+  },
+  {
+    id: 'laninho',
+    name: 'Laninho',
+    role: 'Treinador Avançado',
+    img: '/laninho.png',
+    bio: 'Foco no alto rendimento e torneios competitivos.',
+    attributes: [
+      { name: 'Técnica', value: 90 },
+      { name: 'Intensidade', value: 95 },
+      { name: 'Tática', value: 90 },
+      { name: 'Paciência Infantil', value: 80 },
+    ]
+  },
+  {
+    id: 'adeilson',
+    name: 'Adeilson',
+    role: 'Coordenador Infantil',
+    img: '/adeilson.png',
+    bio: 'Especialista em tênis para crianças e iniciantes.',
+    attributes: [
+      { name: 'Técnica', value: 85 },
+      { name: 'Intensidade', value: 80 },
+      { name: 'Tática', value: 85 },
+      { name: 'Paciência Infantil', value: 100 },
+    ]
+  },
+  {
+    id: 'adair',
+    name: 'Adair',
+    role: 'Treinador Master',
+    img: '/adair.png',
+    bio: 'Vasta experiência, com foco na técnica e evolução constante.',
+    attributes: [
+      { name: 'Técnica', value: 98 },
+      { name: 'Intensidade', value: 85 },
+      { name: 'Tática', value: 95 },
+      { name: 'Paciência Infantil', value: 90 },
+    ]
+  }
+];
+
 export interface BookingData {
   id: string;
   courtId: string;
@@ -51,6 +120,8 @@ interface AppState {
   isAdmin: boolean;
   loginAdmin: () => void;
   logoutAdmin: () => void;
+  coaches: Coach[];
+  updateCoach: (id: string, updatedCoach: Partial<Coach>) => void;
 }
 
 export const useStore = create<AppState>()(
@@ -79,6 +150,10 @@ export const useStore = create<AppState>()(
       isAdmin: false,
       loginAdmin: () => set({ isAdmin: true }),
       logoutAdmin: () => set({ isAdmin: false }),
+      coaches: initialCoaches,
+      updateCoach: (id, updatedCoach) => set((state) => ({
+        coaches: state.coaches.map(c => c.id === id ? { ...c, ...updatedCoach } : c)
+      })),
     }),
     {
       name: 'biotenis-storage',
