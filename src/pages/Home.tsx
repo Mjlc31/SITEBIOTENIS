@@ -20,7 +20,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════════════════
           SEÇÃO 1 — Video Hero (Parallax)
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="relative w-full h-screen overflow-hidden">
+      <section className="relative w-full h-[100dvh] overflow-hidden">
         <motion.div style={{ y: yHero, opacity: opacityHero }} className="absolute inset-0">
           <VideoHero />
         </motion.div>
@@ -29,10 +29,10 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════════════════
           SEÇÃO 2 — O Santuário do Saibro (Background Imagem Parallax CSS)
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="relative w-full min-h-screen flex items-center py-24 overflow-hidden">
+      <section className="relative w-full min-h-[100dvh] flex items-center py-24 overflow-hidden">
         {/* Background Image with Pure CSS Parallax */}
         <div 
-          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=2940&auto=format&fit=crop')] bg-cover bg-center bg-fixed opacity-25"
+          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=2940&auto=format&fit=crop')] bg-cover bg-center md:bg-fixed opacity-25"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-50 via-slate-50/95 to-slate-50/50" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-slate-50" />
@@ -173,10 +173,10 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════════════════
           SEÇÃO 4 — Propósito + Mini Footer (Parallax Imagem)
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="relative w-full flex flex-col overflow-hidden min-h-screen">
+      <section className="relative w-full flex flex-col overflow-hidden min-h-[100dvh]">
         {/* Background Parallax CSS */}
         <div 
-          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2940&auto=format&fit=crop')] bg-cover bg-center bg-fixed opacity-15 grayscale mix-blend-luminosity"
+          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2940&auto=format&fit=crop')] bg-cover bg-center md:bg-fixed opacity-15 grayscale mix-blend-luminosity"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent" />
 

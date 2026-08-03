@@ -61,20 +61,25 @@ export default function Header() {
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.href;
+              const isHome = location.pathname === '/';
+              const isDarkHeader = isHome && !isScrolled;
+              
+              const linkColor = isDarkHeader
+                ? (isActive ? 'text-white' : 'text-white/80 hover:text-white')
+                : (isActive ? 'text-slate-900' : 'text-slate-500 hover:text-slate-900');
+
               return (
                 <Link
                   key={link.label}
                   to={link.href}
-                  className={`text-xs font-semibold tracking-widest uppercase transition-colors duration-200 ${
-                    isActive ? 'text-slate-900' : 'text-slate-500 hover:text-slate-900'
-                  }`}
+                  className={`text-xs font-semibold tracking-widest uppercase transition-colors duration-200 ${linkColor}`}
                 >
                   {link.label}
                 </Link>
               );
             })}
             
-            <div className="w-px h-4 bg-slate-200 mx-2"></div>
+            <div className={`w-px h-4 mx-2 ${location.pathname === '/' && !isScrolled ? 'bg-white/20' : 'bg-slate-200'}`}></div>
 
             {session && isAdmin && (
               <Link to="/admin/jogos" className="group flex items-center gap-2 text-xs font-bold tracking-widest uppercase bg-[#cc4f33] text-white px-5 py-2 rounded-lg hover:bg-[#e06042] active:scale-95 transition-all duration-200">
@@ -84,12 +89,12 @@ export default function Header() {
             )}
             
             {session ? (
-              <Link to="/perfil" className="group flex items-center gap-2 text-xs font-bold tracking-widest uppercase bg-slate-100 hover:bg-slate-200 px-5 py-2 rounded-lg border border-slate-200 active:scale-95 transition-all duration-200 text-slate-900">
+              <Link to="/perfil" className={`group flex items-center gap-2 text-xs font-bold tracking-widest uppercase px-5 py-2 rounded-lg border active:scale-95 transition-all duration-200 ${location.pathname === '/' && !isScrolled ? 'bg-white/10 hover:bg-white/20 border-white/20 text-white' : 'bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-900'}`}>
                 <User size={16} />
                 Perfil
               </Link>
             ) : (
-              <Link to="/login" className="group flex items-center gap-2 text-xs font-bold tracking-widest uppercase bg-slate-100 hover:bg-slate-200 px-5 py-2 rounded-lg border border-slate-200 active:scale-95 transition-all duration-200 text-slate-900">
+              <Link to="/login" className={`group flex items-center gap-2 text-xs font-bold tracking-widest uppercase px-5 py-2 rounded-lg border active:scale-95 transition-all duration-200 ${location.pathname === '/' && !isScrolled ? 'bg-white/10 hover:bg-white/20 border-white/20 text-white' : 'bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-900'}`}>
                 <User size={16} />
                 Login
               </Link>
@@ -98,7 +103,9 @@ export default function Header() {
 
           {/* Mobile Toggle */}
           <button
-            className="md:hidden text-slate-900 p-2 rounded-full hover:bg-slate-100 active:scale-95 transition-all"
+            className={`md:hidden p-2 rounded-full active:scale-95 transition-all ${
+              location.pathname === '/' && !isScrolled ? 'text-white hover:bg-white/10' : 'text-slate-900 hover:bg-slate-100'
+            }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}

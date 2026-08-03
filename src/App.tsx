@@ -4,6 +4,7 @@
  */
 
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -21,10 +22,17 @@ import BlobCursor from './components/BlobCursor';
 function AppInner() {
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) {
+      setIsMobile(true);
+    }
+  }, []);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-[#cc4f33] selection:text-white">
-      <BlobCursor />
+    <div className="min-h-[100dvh] bg-[#050505] text-white font-sans selection:bg-[#cc4f33] selection:text-white">
+      {!isMobile && <BlobCursor />}
       <Header />
       <main>
         <Routes>
