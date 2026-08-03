@@ -28,6 +28,13 @@ export default function BlobCursor({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const blobsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      setIsMobile(true);
+    }
+  }, []);
 
   const updateOffset = useCallback(() => {
     if (!containerRef.current) return { left: 0, top: 0 };
@@ -69,6 +76,8 @@ export default function BlobCursor({
       window.removeEventListener('touchmove', handleMove);
     };
   }, [handleMove]);
+
+  if (isMobile) return null;
 
   return (
     <div

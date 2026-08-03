@@ -31,7 +31,7 @@ import { useStore } from '../store/useStore';export default function Aulas() {
   };
 
   return (
-    <div className="pt-20 min-h-screen bg-slate-50 flex flex-col md:flex-row overflow-hidden relative">
+    <div className="pt-20 min-h-screen bg-slate-50 flex flex-col md:flex-row overflow-x-hidden md:overflow-hidden relative">
       {/* Background */}
       <div className="absolute inset-0 bg-transparent z-0 pointer-events-none"></div>
 
